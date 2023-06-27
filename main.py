@@ -1,49 +1,38 @@
 import random
-
-def verifica_adj_L(matriz, i, j):
-        if (i+1) < 8 and matriz[i+1][j] == 1:
-            return False
-        elif (j+1) < 8 and matriz[i][j+1] == 1:
-            return False
-        elif (i-1) >= 0 and matriz[i-1][j] == 1:
-            return False
-        elif (j-1) >= 0 and matriz[i][j-1] == 1:
-            return False
-        elif matriz[i][j] == 1:
-            return False
-        else: 
-            return True
-        
-def verifica_adj_D(matriz, i, j):
-        if (i+1) < 8 and (j+1) < 8 and matriz[i+1][j+1] == 1:
-            return False
-        elif (i+1) < 8 and (j-1) >= 0 and matriz[i+1][j-1] == 1:
-            return False
-        elif (i-1) >= 0 and (j+1) < 8 and matriz[i-1][j+1] == 1:
-            return False
-        elif (i-1) >= 0 and (j-1) >= 0 and matriz[i-1][j-1] == 1:
-            return False
-        else: 
-            return True
+import functions_APE
 
 matriz = [[0 for i in range(8)] for i in range(8)]
-cont = 0
 N = int(input("Digite o numero de navios: "))
-while True:
-    x = random.randint(0,7)
-    y = random.randint(0,7)
-    if verifica_adj_L(matriz, x, y) and verifica_adj_D(matriz, x, y):
-        matriz[x][y] = 1
-        cont +=1 
-        if cont == N:
-            break
 
+tabuleiro_1 = str(functions_APE.criar_tabuleiro(matriz,N))
+
+file_player_1 = open('tabuleiros\jogador1.txt','w')
+file_player_1.write(tabuleiro_1)
+file_player_1.close()
+
+file_player_2=open('tabuleiros\jogador1.txt','r')
+teste = file_player_2.read().replace("'","")
+teste2 = list(teste)
+print(type(teste2))
+print(len(teste2))
+
+matriz_teste = [[0 for i in range(8)] for i in range(8)]
+
+for  i in range(len(teste2)):
+    for  j in range(len(teste2)):
+        if teste2[i][j] == "A" :
+            matriz_teste[i][j] = "A"
+        elif teste2[i][j] == "N" :
+            matriz_teste[i][j] = "N"
+        
 for i in range(8):
     for j in range(8):
-        if matriz[i][j] == 1:
-            matriz[i][j] = "N"
-        else:
-            matriz[i][j] = "A"
+        print(f'{matriz_teste[i][j]:4}',end="")
+    print()
 
-        print(f"{matriz[i][j]:4}", end="")
-    print("")
+
+file_player_2.close()
+
+
+
+
