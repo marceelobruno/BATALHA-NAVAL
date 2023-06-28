@@ -1,11 +1,18 @@
 from functions_APE import *
 
+with open('art_generator.txt', 'r') as arquivo:
+    print(arquivo.read())
+
 while True:
-    N = int(input("Digite o numero de navios: (1 - 6)"))
+    N = int(input("Digite o número de navios (1 - 6): "))
     if N <= 6 and N > 0:
         break
     else:
-        print("Insira um valor válido entre 1 e 6")
+        print("Insira um valor válido entre 1 e 6!")
+
+print('Informe os nomes dos jogadores:')
+jogador1_nome = input('Jogador 1: ').title()
+jogador2_nome = input('Jogador 2: ').title()
 
 jogador1 = gerar_tabuleiro(N)
 jogador2 = gerar_tabuleiro(N)
@@ -22,15 +29,16 @@ while test:
         while True:
             print()
             print("Para acessar o menu digite: 8")
-            print()
-            print("Vez do jogador 1")
+
+            # Jogador 1
+            print(f"\nVez do jogador 1 - {jogador1_nome}")
             print()
 
-            linha = int(input("Digite a posição da linha"))
-            if linha == 8: 
+            linha = int(input("Digite a posição da linha: "))
+            if linha == 8:
                 menu(jogador1, jogador2)
                 break
-            coluna = int(input("Digite a posição da coluna"))
+            coluna = int(input("Digite a posição da coluna: "))
 
             if linha < 8 and coluna < 8:
                 if jogador1[linha][coluna] == "N":
@@ -43,11 +51,11 @@ while test:
                     """)
 
                     exibir_game(tab_1, tab_2)
-                else: 
+                else:
 
                     print("""
 
-                    #########   AGUA   ##########
+                    #########   ÁGUA   ##########
 
                     """)
 
@@ -55,22 +63,24 @@ while test:
                     exibir_game(tab_1, tab_2)
 
             else:
-                print("Digite um valor válido")
+                print("Digite um valor válido.")
                 print()
-                print("Perdeu a vez")
+                print("Perdeu a vez!")
                 print()
 
             print()
             print("Para acessar o menu digite: 8")
-            print()
-            print("Vez do jogador 2")
+
+            # Jogador 2
+            print(f"\nVez do jogador 2 - {jogador2_nome}")
             print()
 
-            linha = int(input("Digite a posição da linha"))
-            if linha == 8: 
+            linha = int(input("Digite a posição da linha: "))
+            if linha == 8:
                 menu(jogador1, jogador2)
                 break
-            coluna = int(input("Digite a posição da coluna"))
+
+            coluna = int(input("Digite a posição da coluna: "))
 
             if linha < 8 and coluna < 8:
                 if jogador1[linha][coluna] == "N":
@@ -83,30 +93,20 @@ while test:
                     """)
 
                     exibir_game(tab_1, tab_2)
-                else: 
+                else:
 
                     print("""
 
-                    #########   AGUA   ##########
+                    #########   ÁGUA   ##########
 
                     """)
 
                     tab_2[linha][coluna] = 'A'
                     exibir_game(tab_1, tab_2)
             else:
-                print("Digite um valor válido")
+                print("Digite um valor válido.")
                 print()
-                print("Perdeu a vez")
+                print("Perdeu a vez!")
                 print()
     else:
         print("Você encerrou o programa !!")
-
-
-
-        
-
-
-
-
-
-
