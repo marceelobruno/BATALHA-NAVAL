@@ -12,8 +12,21 @@ import pickle
 import random
 
 
-# Verifica se as celulas laterais a posição (i, j) está disponível.
 def verifica_adj_L(matriz, i, j):
+    """Esta função verifica se há valores 1 acima, abaixo, à esquerda
+    ou à direita de um outro valor 1 selecionado na matriz. 
+
+    Args:
+        matriz (list[list]): refere-se à matriz gerada.
+        i (int): refere-se à linha da matriz.
+        j (int): refere-se à coluna da matriz.
+
+    Returns:
+        Bool: Retorna True se não houver nenhum valor 1 adjacente pelos
+        lados. Retorna False caso o contrário ou se a posição matriz[i][j]
+        já estiver ocupada por um valor 1.  
+    """
+
     if (i + 1) < 8 and matriz[i + 1][j] == 1:
         return False
     elif (j + 1) < 8 and matriz[i][j + 1] == 1:
@@ -30,6 +43,20 @@ def verifica_adj_L(matriz, i, j):
 
 # Verifica se as celulas diagonais na posição (i, j) está disponível.
 def verifica_adj_D(matriz, i, j):
+    """Esta função verifica se há valores 1 nas diagonais de um outro
+    valor 1 selecionado na matriz.
+    
+
+    Args:
+        matriz (list[list]): refere-se à matriz gerada.
+        i (int): refere-se à linha da matriz.
+        j (int): refere-se à coluna da matriz.
+
+    Returns:
+        Bool: Retorna True se não houver nenhum valor 1 adjacente pelas
+        diagonais. Retorna False caso contrário. 
+    """
+
     if (i + 1) < 8 and (j + 1) < 8 and matriz[i + 1][j + 1] == 1:
         return False
     elif (i + 1) < 8 and (j - 1) >= 0 and matriz[i + 1][j - 1] == 1:
@@ -43,7 +70,17 @@ def verifica_adj_D(matriz, i, j):
 
 
 # Gera o tabuleiro
-def gerar_tabuleiro(N):
+def gerar_tabuleiro(num_navios):
+    """Esta função gera o tabuleiro do jogo como uma matriz 
+
+    Args:
+        num_navios (int):  contém o número de navios selecionados. 
+
+    Returns:
+        Retorna o tabuleiro gerado com os elementos "A" (água) e "N" (navio)
+
+    """
+
     matriz = [[0 for i in range(8)] for i in range(8)]
     cont = 0
     while True:
@@ -52,7 +89,7 @@ def gerar_tabuleiro(N):
         if verifica_adj_L(matriz, x, y) and verifica_adj_D(matriz, x, y):
             matriz[x][y] = 1
             cont += 1
-            if cont == N:
+            if cont == num_navios:
                 break
 
     for i in range(8):
@@ -181,13 +218,23 @@ def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str) -> list[li
 
 # Gera o menu interativo
 def menu(jog1, jog2, folder_path: str):
+    """ Apresenta comandos básicos de um menu que podem ser selecionados 
+    ao digitar um número inteiro. Esta função utiliza-se de outras funções,
+    como: `carrega_jogo()`,`exibir_tabuleiro()`e salva_jogo().
+
+    Args:
+        jog1 (list): Matriz contendo a partida do jogador 1.
+        jog2 (list): Matriz contendo a partida do jogador 2.
+        folderPath (str): Caminho onde o jogo será carregado.
+    """  
+
     print("""\
 
 Menu:
     Digite 1 para iniciar um novo jogo:
-    Digite 2 para exibir as frotas:
-    Digite 3 para sair do jogo:
-    Digite 4 para carregar um jogo:
+    Digite 2 para carregar um jogo:
+    Digite 3 para exibir as frotas:
+    Digite 4 para sair do jogo:
     """)
 
     menu = int(input("Digite o que deseja: "))
@@ -195,15 +242,15 @@ Menu:
     if menu == 1:
         return True
     elif menu == 2:
-        exibir_tabuleiro(jog1, jog2)
+        carrega_jogo(jog1, jog2, folder_path)
     elif menu == 3:
+        exibir_tabuleiro(jog1, jog2)
+    elif menu == 4:
         salvar = input(('\nDeseja salvar o jogo (S/N)?: ')).upper()
         if salvar == 'S':
             salva_jogo(jog1, jog2, folder_path)
             print('Partida salva!')
         elif salvar == 'N':
             print("Você encerrou o programa sem salvar!")
-    elif menu == 4:
-        carrega_jogo(jog1, jog2, folder_path)
     else:
         return False

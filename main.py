@@ -5,8 +5,8 @@ with open('helpers\game_logo.txt', 'r', encoding='utf-8') as logo:
     print(logo.read())
 
 while True:
-    N = int(input("Digite o número de navios (1 - 6): "))
-    if N <= 6 and N > 0:
+    numeroNavios = int(input("Digite o número de navios (1 - 6): "))
+    if numeroNavios <= 6 and numeroNavios > 0:
         break
     else:
         print("Insira um valor válido entre 1 e 6!")
@@ -19,8 +19,8 @@ nomeJogador_2 = input('Jogador 2: ').title()
 # Gera o path através dos nomes dos jogadores
 folder_path = nomeJogador_1 + '_' + nomeJogador_2
 
-jogador1 = gerar_tabuleiro(N)
-jogador2 = gerar_tabuleiro(N)
+jogador1 = gerar_tabuleiro(numeroNavios)
+jogador2 = gerar_tabuleiro(numeroNavios)
 
 test = menu(jogador1, jogador2, folder_path)
 while test:
@@ -30,8 +30,8 @@ while test:
         tab_2 = [["X" for i in range(8)] for i in range(8)]
 
         exibir_game(tab_1, tab_2)
-
-        while True:
+        tiro = "N"
+        while tiro == "N":
             print("\nPara acessar o menu digite: 8")
 
             # Ações do Jogador 1
@@ -59,6 +59,7 @@ while test:
 
                     tab_1[linha][coluna] = 'A'
                     exibir_game(tab_1, tab_2)
+                    tiro = "A"
 
             else:
                 print("Digite um valor válido.")
