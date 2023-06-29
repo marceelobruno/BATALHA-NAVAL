@@ -143,7 +143,7 @@ def exibir_game(tab1, tab2):
     print()
 
 
-def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str):
+def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str, tab1, tab2):
     """Salva a partida em andamento possibilitando uma posterior continuação.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve obedecer a ordem:
     `nome do 1° jogador` + `nome do 2° jogador`, uma vez que o diretório é salvo
@@ -172,7 +172,7 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str):
             pickle.dump(jog2, output)
 
 
-def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str) -> list[list]:
+def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str, tab1, tab2) -> list[list]:
     """Carrega uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelo jogador e deve obedecer a ordem:
     `nome do 1° jogador` + `nome do 2° jogador`, uma vez que o diretório é salvo
@@ -217,7 +217,7 @@ def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str) -> list[li
 
 
 # Gera o menu interativo
-def menu(jog1, jog2, folder_path: str):
+def menu(jog1, jog2, folder_path: str, tab1, tab2):
     """ Apresenta comandos básicos de um menu que podem ser selecionados 
     ao digitar um número inteiro. Esta função utiliza-se de outras funções,
     como: `carrega_jogo()`,`exibir_tabuleiro()`e salva_jogo().
@@ -242,15 +242,18 @@ Menu:
     if menu == 1:
         return True
     elif menu == 2:
-        carrega_jogo(jog1, jog2, folder_path)
+        carrega_jogo(jog1, jog2, folder_path, tab1, tab2)
     elif menu == 3:
         exibir_tabuleiro(jog1, jog2)
     elif menu == 4:
         salvar = input(('\nDeseja salvar o jogo (S/N)?: ')).upper()
         if salvar == 'S':
-            salva_jogo(jog1, jog2, folder_path)
+            salva_jogo(jog1, jog2, folder_path, tab1, tab2)
             print('Partida salva!')
+            return False
         elif salvar == 'N':
             print("Você encerrou o programa sem salvar!")
+            return False
     else:
         return False
+
