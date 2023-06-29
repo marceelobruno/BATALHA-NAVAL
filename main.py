@@ -30,76 +30,82 @@ while test:
         tab_2 = [["X" for i in range(8)] for i in range(8)]
 
         exibir_game(tab_1, tab_2)
-        tiro = "N"
-        while tiro == "N":
-            print("\nPara acessar o menu digite: 8")
 
-            # Ações do Jogador 1
-            print(f"\nVez do jogador 1 - {nomeJogador_1}")
-            print()
+        while True:
+            tiro = 'N'
+            while tiro == 'N':
+                print("\nPara acessar o menu digite: 8")
 
-            linha = int(input("Digite a posição da linha: "))
-            if linha == 8:
-                menu(jogador1, jogador2, folder_path)
-                break
-            coluna = int(input("Digite a posição da coluna: "))
+                # Ações do Jogador 1
+                print(f"\nVez do jogador 1 - {nomeJogador_1}")
+                print()
 
-            if linha < 8 and coluna < 8:
-                if jogador1[linha][coluna] == "N":
-                    tab_1[linha][coluna] = 'N'
-                    print()
-                    with open('helpers\shot.txt', 'r') as fogo:
-                        print(fogo.read())
+                linha = int(input("Digite a posição da linha: "))
+                if linha == 8:
+                    menu(jogador1, jogador2, folder_path)
+                    break
+                coluna = int(input("Digite a posição da coluna: "))
 
-                    exibir_game(tab_1, tab_2)
+                if linha < 8 and coluna < 8:
+                    if jogador1[linha][coluna] == "N":
+                        tab_1[linha][coluna] = 'N'
+                        print()
+                        with open('helpers\shot.txt', 'r') as fogo:
+                            print(fogo.read())
+
+                        exibir_game(tab_1, tab_2)
+                    else:
+                        print()
+                        with open('helpers\water.txt', 'r') as agua:
+                            print(agua.read())
+
+                        tab_1[linha][coluna] = 'A'
+                        exibir_game(tab_1, tab_2)
+                        tiro = "A"
+
                 else:
+                    print("Digite um valor válido.")
                     print()
-                    with open('helpers\water.txt', 'r') as agua:
-                        print(agua.read())
+                    print("Perdeu a vez!")
 
-                    tab_1[linha][coluna] = 'A'
-                    exibir_game(tab_1, tab_2)
-                    tiro = "A"
-
-            else:
-                print("Digite um valor válido.")
-                print()
-                print("Perdeu a vez!")
-                print()
-
-            print()
-            print("Para acessar o menu digite: 8")
-
-            # Ações do Jogador 2
-            print(f"\nVez do jogador 2 - {nomeJogador_2}")
-            print()
-
-            linha = int(input("Digite a posição da linha: "))
-            if linha == 8:
-                menu(jogador1, jogador2, folder_path)
-                break
-
-            coluna = int(input("Digite a posição da coluna: "))
-
-            if linha < 8 and coluna < 8:
-                if jogador1[linha][coluna] == "N":
-                    tab_2[linha][coluna] = 'N'
                     print()
-                    with open('helpers\shot.txt', 'r') as fogo:
-                        print(fogo.read())
+            
+            tiro = 'N'
+            while tiro == 'N':
+                print()
+                print("Para acessar o menu digite: 8")
 
-                    exibir_game(tab_1, tab_2)
+                # Ações do Jogador 2
+                print(f"\nVez do jogador 2 - {nomeJogador_2}")
+                print()
+
+                linha = int(input("Digite a posição da linha: "))
+                if linha == 8:
+                    menu(jogador1, jogador2, folder_path)
+                    break
+
+                coluna = int(input("Digite a posição da coluna: "))
+
+                if linha < 8 and coluna < 8:
+                    if jogador1[linha][coluna] == "N":
+                        tab_2[linha][coluna] = 'N'
+                        print()
+                        with open('helpers\shot.txt', 'r') as fogo:
+                            print(fogo.read())
+
+                        exibir_game(tab_1, tab_2)
+                    else:
+                        print()
+                        with open('helpers\water.txt', 'r') as agua:
+                            print(agua.read())
+
+                        tab_2[linha][coluna] = 'A'
+                        exibir_game(tab_1, tab_2)
+                        tiro = 'A'
                 else:
+                    print("Digite um valor válido.")
                     print()
-                    with open('helpers\water.txt', 'r') as agua:
-                        print(agua.read())
-
-                    tab_2[linha][coluna] = 'A'
-                    exibir_game(tab_1, tab_2)
-            else:
-                print("Digite um valor válido.")
-                print()
-                print("Perdeu a vez!")
-                print()
+                    print("Perdeu a vez!")
+                    print()
     else:
         print("Você encerrou o programa !!")
