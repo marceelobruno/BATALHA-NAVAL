@@ -22,18 +22,19 @@ folder_path = nomeJogador_1 + '_' + nomeJogador_2
 jogador1 = gerar_tabuleiro(numeroNavios)
 jogador2 = gerar_tabuleiro(numeroNavios)
 
-test = menu(jogador1, jogador2, folder_path)
+tab_1 = [["X" for i in range(8)] for i in range(8)]
+tab_2 = [["X" for i in range(8)] for i in range(8)]
+
+test = menu(jogador1, jogador2, folder_path, tab_1, tab_2)
+event = 0
 while test:
     if test:
-        event = 0
-        tab_1 = [["X" for i in range(8)] for i in range(8)]
-        tab_2 = [["X" for i in range(8)] for i in range(8)]
-
         exibir_game(tab_1, tab_2)
 
-        while True:
-            tiro = 'N'
-            while tiro == 'N':
+        #while True:
+        tiro = 'N'
+        while tiro == 'N':
+
                 print("\nPara acessar o menu digite: 8")
 
                 # Ações do Jogador 1
@@ -41,14 +42,20 @@ while test:
                 print()
 
                 linha = int(input("Digite a posição da linha: "))
-                if linha == 8:
-                    menu(jogador1, jogador2, folder_path)
-                    break
                 coluna = int(input("Digite a posição da coluna: "))
 
+                if linha == 8 or coluna == 8:
+                    e = menu(jogador1, jogador2, folder_path, tab_1, tab_2)
+                    if e == False:
+                        event = 1
+                    break
+
                 if linha < 8 and coluna < 8:
+                    if tab_1[linha][coluna] == "F":
+                        tiro = 'A'
+                        break
                     if jogador1[linha][coluna] == "N":
-                        tab_1[linha][coluna] = 'N'
+                        tab_1[linha][coluna] = 'F'
                         print()
                         with open('helpers\shot.txt', 'r') as fogo:
                             print(fogo.read())
@@ -69,9 +76,12 @@ while test:
                     print("Perdeu a vez!")
 
                     print()
+
+        if event == 1:
+            break
             
-            tiro = 'N'
-            while tiro == 'N':
+        tiro = 'N'
+        while tiro == 'N':
                 print()
                 print("Para acessar o menu digite: 8")
 
@@ -81,14 +91,20 @@ while test:
 
                 linha = int(input("Digite a posição da linha: "))
                 if linha == 8:
-                    menu(jogador1, jogador2, folder_path)
+                    e = menu(jogador1, jogador2, folder_path, tab_1, tab_2)
+                    if e == False:
+                        event = 1
                     break
 
                 coluna = int(input("Digite a posição da coluna: "))
 
                 if linha < 8 and coluna < 8:
+                    if tab_1[linha][coluna] == "F":
+                        tiro = 'A'
+                        break
                     if jogador1[linha][coluna] == "N":
-                        tab_2[linha][coluna] = 'N'
+    
+                        tab_2[linha][coluna] = 'F'
                         print()
                         with open('helpers\shot.txt', 'r') as fogo:
                             print(fogo.read())
@@ -107,5 +123,7 @@ while test:
                     print()
                     print("Perdeu a vez!")
                     print()
+        if event == 1:
+            break
     else:
         print("Você encerrou o programa !!")
