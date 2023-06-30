@@ -1,7 +1,7 @@
 from functions_APE import *
 
 # Abre a logo inicial do jogo
-with open('helpers\game_logo.txt', 'r', encoding='utf-8') as logo:
+with open('helpers/game_logo.txt', 'r', encoding='utf-8') as logo:
     print(logo.read())
 
 while True:
@@ -50,13 +50,13 @@ while test:
                     if jogador1[linha][coluna] == "N":
                         tab_1[linha][coluna] = 'N'
                         print()
-                        with open('helpers\shot.txt', 'r') as fogo:
+                        with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
                             print(fogo.read())
 
                         exibir_game(tab_1, tab_2)
                     else:
                         print()
-                        with open('helpers\water.txt', 'r') as agua:
+                        with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
                             print(agua.read())
 
                         tab_1[linha][coluna] = 'A'
@@ -69,7 +69,7 @@ while test:
                     print("Perdeu a vez!")
 
                     print()
-            
+
             tiro = 'N'
             while tiro == 'N':
                 print()
@@ -90,13 +90,13 @@ while test:
                     if jogador1[linha][coluna] == "N":
                         tab_2[linha][coluna] = 'N'
                         print()
-                        with open('helpers\shot.txt', 'r') as fogo:
+                        with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
                             print(fogo.read())
 
                         exibir_game(tab_1, tab_2)
                     else:
                         print()
-                        with open('helpers\water.txt', 'r') as agua:
+                        with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
                             print(agua.read())
 
                         tab_2[linha][coluna] = 'A'

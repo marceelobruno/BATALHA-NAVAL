@@ -12,19 +12,19 @@ import pickle
 import random
 
 
-def verifica_adj_L(matriz, i, j):
+def verifica_adj_L(matriz: list[list], i: int, j: int) -> bool:
     """Esta função verifica se há valores 1 acima, abaixo, à esquerda
-    ou à direita de um outro valor 1 selecionado na matriz. 
+    ou à direita de um outro valor 1 selecionado na matriz.
 
     Args:
-        matriz (list[list]): refere-se à matriz gerada.
-        i (int): refere-se à linha da matriz.
-        j (int): refere-se à coluna da matriz.
+        matriz (list[list]): Refere-se à matriz gerada.
+        i (int): Refere-se à linha da matriz.
+        j (int): Refere-se à coluna da matriz.
 
     Returns:
         Bool: Retorna True se não houver nenhum valor 1 adjacente pelos
         lados. Retorna False caso o contrário ou se a posição matriz[i][j]
-        já estiver ocupada por um valor 1.  
+        já estiver ocupada por um valor 1.
     """
 
     if (i + 1) < 8 and matriz[i + 1][j] == 1:
@@ -41,20 +41,19 @@ def verifica_adj_L(matriz, i, j):
         return True
 
 
-# Verifica se as celulas diagonais na posição (i, j) está disponível.
-def verifica_adj_D(matriz, i, j):
-    """Esta função verifica se há valores 1 nas diagonais de um outro
-    valor 1 selecionado na matriz.
-    
+def verifica_adj_D(matriz: list[list], i: int, j: int) -> bool:
+    """Esta função verifica se há valores 1 nas diagonais de um
+    outro valor 1 selecionado na matriz.
+
 
     Args:
-        matriz (list[list]): refere-se à matriz gerada.
-        i (int): refere-se à linha da matriz.
-        j (int): refere-se à coluna da matriz.
+        matriz (list[list]): Refere-se à matriz gerada.
+        i (int): Refere-se à linha da matriz.
+        j (int): Refere-se à coluna da matriz.
 
     Returns:
-        Bool: Retorna True se não houver nenhum valor 1 adjacente pelas
-        diagonais. Retorna False caso contrário. 
+        Bool: Retorna True se não houver nenhum valor 1 adjacente
+        pelas diagonais. Caso contrário, retornará False.
     """
 
     if (i + 1) < 8 and (j + 1) < 8 and matriz[i + 1][j + 1] == 1:
@@ -69,16 +68,14 @@ def verifica_adj_D(matriz, i, j):
         return True
 
 
-# Gera o tabuleiro
-def gerar_tabuleiro(num_navios):
-    """Esta função gera o tabuleiro do jogo como uma matriz 
+def gerar_tabuleiro(num_navios: int) -> list[list]:
+    """Esta função gera o tabuleiro do jogo como uma matriz.
 
     Args:
-        num_navios (int):  contém o número de navios selecionados. 
+        num_navios (int):  contém o número de navios selecionados.
 
     Returns:
         Retorna o tabuleiro gerado com os elementos "A" (água) e "N" (navio)
-
     """
 
     matriz = [[0 for i in range(8)] for i in range(8)]
@@ -102,20 +99,27 @@ def gerar_tabuleiro(num_navios):
     return matriz
 
 
-# Exibe as frotas
-def exibir_tabuleiro(jogador1, jogador2):
-    print()
-    print("Jogador 1")
+def exibir_tabuleiro(jogador1: list[list], jogador2: list[list]) -> list[list]:
+    """A função exibe as frotas como uma matriz em forma de tabuleiro para os usuários. 
+    Caso a exibição das frotas seja feita antes da partida iniciar, esta será encerrada.
+
+    Args:
+        jogador1 (list[list]):Contém a frota do jogador 1.
+        jogador2 (list[list]): Contém a frota do jogador 2.
+
+    Returns:
+        list[list]: As frotas dos jogadores.
+    """
+
+    print("\nJogador 1")
     print()
     for i in range(8):
         for j in range(8):
             print(f"{jogador1[i][j]:4}", end="")
         print("")
 
+    print("\nJogador 2")
     print()
-    print("Jogador 2")
-    print()
-
     for i in range(8):
         for j in range(8):
             print(f"{jogador2[i][j]:4}", end="")
@@ -123,8 +127,17 @@ def exibir_tabuleiro(jogador1, jogador2):
     print()
 
 
-# Exibe o tabuleiro para o jogo.
-def exibir_game(tab1, tab2):
+def exibir_game(tab1: list[list], tab2: list[list]) -> list[list]:
+    """Exibe para cada jogador um tabuleiro com as casas em forma de `X`.
+
+    Args:
+        tab1 (list[list]): Tabuleiro do jogador 1
+        tab2 (list[list]): Tabuleiro do jogador 2
+
+    Returns:
+        list[list]: Os tabuleiros dos jogadores
+    """
+
     print("\nJogador 1")
     print()
 
@@ -135,7 +148,6 @@ def exibir_game(tab1, tab2):
 
     print("\nJogador 2")
     print()
-
     for i in range(8):
         for j in range(8):
             print(f"{tab2[i][j]:4}", end="")
@@ -155,20 +167,20 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str):
         folderPath (str): Caminho onde o jogo será salvo
     """
 
-    # Transforma o parâmetro folderPath em um caminho relativo
-    caminho = fr'boards\{folderPath}'
+    # Transforma o parâmetro folderPath em um caminho relativo.
+    caminho = fr'boards/{folderPath}'
 
-    # Cria o diretório caso o path informado não exista
+    # Cria o diretório caso o path informado não exista.
     if not os.path.exists(caminho):
         os.makedirs(caminho)
 
-    # Se o diretório informado for criado na chamada da função ou já existir,
-    # salvará a partida no path.
+    # Se o diretório for criado na chamada da função ou já existir,
+    # salvará a partida no caminho informado.
     if os.path.exists(caminho):
-        with open(fr'{caminho}\player_1.pkl', 'wb') as output:
+        with open(fr'{caminho}/player_1.pkl', 'wb') as output:
             pickle.dump(jog1, output)
 
-        with open(fr'{caminho}\player_2.pkl', 'wb') as output:
+        with open(fr'{caminho}/player_2.pkl', 'wb') as output:
             pickle.dump(jog2, output)
 
 
@@ -184,20 +196,20 @@ def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str) -> list[li
         folderPath (str): Caminho onde o jogo será carregado.
     """
 
-    # Transforma o parâmetro folderPath em um caminho relativo
-    caminho = fr'boards\{folderPath}'
+    # Transforma o parâmetro folderPath em um caminho relativo.
+    caminho = fr'boards/{folderPath}'
 
-    # Verificando se o caminho informado para recupeação do jogo existe,
-    # caso contrário, o usuário terá que informar novamente os nomes dos jogadores
+    # Verificando se o caminho informado para recupeação do jogo existe, caso
+    # contrário, o usuário terá que informar novamente os nomes dos jogadores.
     if not os.path.exists(caminho):
         print('Partida desconhecida. Tente novamente!')
 
     else:
-        # Carregando partida jogador_1
-        with open(fr'{caminho}\player_1.pkl', 'rb') as player_1_file:
+        # Carregando partida do jogador_1
+        with open(fr'{caminho}/player_1.pkl', 'rb') as player_1_file:
             jog1 = pickle.load(player_1_file)
 
-        # Exibe a partida jogador_1
+        # Exibe a partida do jogador_1
         for i in range(len(jog1)):
             for j in range(len(jog1)):
                 print(f'{jog1[i][j]:4}', end=" ")
@@ -205,28 +217,27 @@ def carrega_jogo(jog1: list[list], jog2: list[list], folderPath: str) -> list[li
 
         print()
 
-        # Carregando partida jogador_2
-        with open(fr'{caminho}\player_2.pkl', 'rb') as player_2_file:
+        # Carregando partida do jogador_2
+        with open(fr'{caminho}/player_2.pkl', 'rb') as player_2_file:
             jog2 = pickle.load(player_2_file)
 
-        # Exibe a partida jogador_2
+        # Exibe a partida do jogador_2
         for i in range(len(jog2)):
             for j in range(len(jog2)):
                 print(f'{jog2[i][j]:4}', end=" ")
             print()
 
 
-# Gera o menu interativo
-def menu(jog1, jog2, folder_path: str):
-    """ Apresenta comandos básicos de um menu que podem ser selecionados 
+def menu(jog1: list[list], jog2: list[list], folder_path: str) -> str:
+    """ Apresenta comandos básicos de um menu que podem ser selecionados
     ao digitar um número inteiro. Esta função utiliza-se de outras funções,
-    como: `carrega_jogo()`,`exibir_tabuleiro()`e salva_jogo().
+    como: `carrega_jogo()`,`exibir_tabuleiro()` e `salva_jogo()`.
 
     Args:
         jog1 (list): Matriz contendo a partida do jogador 1.
         jog2 (list): Matriz contendo a partida do jogador 2.
         folderPath (str): Caminho onde o jogo será carregado.
-    """  
+    """
 
     print("""\
 
