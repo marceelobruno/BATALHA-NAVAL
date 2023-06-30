@@ -69,15 +69,18 @@ def verifica_adj_D(matriz, i, j):
         return True
 
 
-# Gera o tabuleiro
 def gerar_tabuleiro(num_navios):
-    """Esta função gera o tabuleiro do jogo como uma matriz 
+    """Esta função gera o tabuleiro do jogo como uma matriz de elementos
+    1 e 0 e os transforma em "N" e "A". Esta função utiliza outras funções
+    criadas, como: verifica_adj_L() e verifica_adj_D().
 
     Args:
         num_navios (int):  contém o número de navios selecionados. 
 
     Returns:
-        Retorna o tabuleiro gerado com os elementos "A" (água) e "N" (navio)
+        Retorna o tabuleiro gerado com os elementos "A" (água) e "N" (navio).
+        Type: (list[list])
+
 
     """
 
@@ -104,6 +107,14 @@ def gerar_tabuleiro(num_navios):
 
 # Exibe as frotas
 def exibir_tabuleiro(jogador1, jogador2):
+    """Essa função exibe os tabuleiros criados pela outra função
+    gerar_tabuleiro().
+
+    Args:
+        jogador1 (list[list]): tabuleiro gerado para o jogador 1
+        jogador2 (list[list]): tabuleiro gerado para o jogador 2
+    """
+
     print()
     print("Jogador 1")
     print()
@@ -125,6 +136,15 @@ def exibir_tabuleiro(jogador1, jogador2):
 
 # Exibe o tabuleiro para o jogo.
 def exibir_game(tab1, tab2):
+    """Exibe novos tabuleiros compostos por elementos "X",
+    mascarando as posições dos Navios dos tabuleiros originais.
+
+
+    Args:
+        tab1 (list[list]): matriz composta por elementos "X".
+        tab2 (list[list]): matriz composta por elementos "X".
+    """
+
     print("\nJogador 1")
     print()
 
