@@ -68,8 +68,10 @@ def verifica_adj_D(matriz: list[list], i: int, j: int) -> bool:
         return True
 
 
-def gerar_tabuleiro(num_navios: int) -> list[list]:
-    """Esta função gera o tabuleiro do jogo como uma matriz.
+def gerar_tabuleiro(num_navios):
+    """Esta função gera o tabuleiro do jogo como uma matriz de elementos
+    1 e 0 e os transforma em "N" e "A". Esta função utiliza outras funções
+    criadas, como: verifica_adj_L() e verifica_adj_D().
 
     Args:
         num_navios (int):  contém o número de navios selecionados.
