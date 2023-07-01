@@ -239,7 +239,7 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
 
 
 def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
-                 tb_1: list[list], tb_2: list[list],) -> list[list]:
+                 tb_1: list[list], tb_2: list[list], nome1: str = "Player_1", nome2: str = "Player_2" ) -> list[list] :
     """Carrega uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve
     obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`, uma vez
@@ -277,10 +277,10 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
         with open(fr'{caminho}/tab_2.pkl', 'rb') as tb_2:
             tb_2 = pickle.load(tb_2)
 
-        return exibir_game(tb_1, tb_2)
+        return game(plyr_1, plyr_2, tb_1, tb_2, nome1, nome2)
 
 
-def menu(jog1: list[list], jog2: list[list], folder_path: str, tab1, tab2) -> str:
+def menu(jog1=None, jog2=None, tab1=None, tab2=None) -> str:
     """ Apresenta comandos básicos de um menu que podem ser selecionados
     ao digitar um número inteiro. Esta função utiliza-se de outras funções,
     como: `carrega_jogo()`,`exibir_tabuleiro()` e `salva_jogo()`.
@@ -297,26 +297,143 @@ Menu:
     Digite 1 para iniciar um novo jogo:
     Digite 2 para carregar um jogo:
     Digite 3 para exibir as frotas:
-    Digite 4 para sair do jogo:
+    Digite 4 para sair e salvar:
+    Digite 5 para sair sem salvar
     """)
+
+    
 
     menu = int(input("Digite o que deseja: "))
 
     if menu == 1:
-        return True
+        while True:
+            numeroNavios = int(input("Digite o número de navios (1 - 6): "))
+            # if numeroNavios <= 6 and numeroNavios > 0:
+            if 0 < numeroNavios <= 6:
+                break
+            print("Insira um valor válido entre 1 e 6!")
+
+        # Captura o nome dos jogadores
+        print('Informe os nomes dos jogadores:')
+        nomeJogador_1 = input('Jogador 1: ').title()
+        nomeJogador_2 = input('Jogador 2: ').title()
+
+        jogador1 = gerar_tabuleiro(numeroNavios)
+        jogador2 = gerar_tabuleiro(numeroNavios)
+
+        tab_1 = [["X" for i in range(9)] for i in range(9)]
+        tab_2 = [["X" for i in range(9)] for i in range(9)]
+
+        game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2)
+
     elif menu == 2:
+        folder_path = input("informe o nome da partida que deseja carregar").lower()
         carrega_jogo(jog1, jog2, folder_path, tab1, tab2)
-        return True
+
     elif menu == 3:
-        exibir_tabuleiro(jog1, jog2)
+        exibir_game(jogador1, jogador2)
+
     elif menu == 4:
-        salvar = input(('\nDeseja salvar o jogo (S/N)?: ')).upper()
-        if salvar == 'S':
-            salva_jogo(jog1, jog2, folder_path, tab1, tab2)
-            print('Partida salva!')
-            return False
-        elif salvar == 'N':
-            print("Você encerrou o programa sem salvar!")
-            return False
-    else:
+        folder_path = input("Infome o nome dessa partida").lower()
+        salva_jogo(jog1, jog2, folder_path, tab1, tab2)
+        print('Partida salva!')
         return False
+    else:
+        print("Você encerrou o programa sem salvar!")
+        return False
+
+def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
+    exibir_game(tab_1, tab_2)
+    event = 0
+    while True:
+        while True:
+            print("\nPara acessar o menu digite: 0")
+
+            # Ações do Jogador 1
+            print(f"\nVez do jogador 1 - {nomeJogador_1}")
+            print()
+
+            linha = int(input("Digite a posição da linha: "))
+            coluna = int(input("Digite a posição da coluna: "))
+
+            if linha == 0 or coluna == 0:
+                e = menu()
+                if e is False:
+                    event = 1
+                break
+
+            if linha < 9 and coluna < 9:
+                if tab_1[linha][coluna] == "F":
+                    print("Você já acertou essa posição perdeu a vez !!")
+                    break
+                if jogador1[linha][coluna] == "N":
+                    tab_1[linha][coluna] = 'F'
+                    print()
+                    with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
+                        print(fogo.read())
+
+                    exibir_game(tab_1, tab_2)
+                else:
+                    print()
+                    with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
+                        print(agua.read())
+
+                    tab_1[linha][coluna] = 'A'
+                    exibir_game(tab_1, tab_2)
+                    break
+
+            else:
+                print("Posição inválida")
+                print("\nPerdeu a vez!")
+                print()
+                break
+
+        if event == 1:
+            break
+
+        while True:
+            print("\nPara acessar o menu digite: 0")
+
+            # Ações do Jogador 2
+            print(f"\nVez do jogador 2 - {nomeJogador_2}")
+            print()
+
+            linha = int(input("Digite a posição da linha: "))
+            if linha == 0:
+                e = menu(jogador1, jogador2, tab_1, tab_2)
+                if e is False:
+                    event = 1
+                break
+
+            coluna = int(input("Digite a posição da coluna: "))
+
+            if linha < 9 and coluna < 9:
+                if tab_2[linha][coluna] == "F":
+                    print("Você já acertou essa posição perdeu a vez !!")
+                    break
+                if jogador1[linha][coluna] == "N":
+
+                    tab_2[linha][coluna] = 'F'
+                    print()
+                    with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
+                        print(fogo.read())
+
+                    exibir_game(tab_1, tab_2)
+                    print()
+                else:
+                    print()
+                    with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
+                        print(agua.read())
+
+                    tab_2[linha][coluna] = 'A'
+                    exibir_game(tab_1, tab_2)
+                    print()
+                    break
+            else:
+                print("Posição inválida")
+                print("\nPerdeu a vez!")
+                print()
+                break
+
+        if event == 1:
+            break
