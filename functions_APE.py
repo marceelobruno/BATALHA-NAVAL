@@ -296,20 +296,61 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
     event = 0
     while True:
         while True:
-            print("\nPara acessar o menu digite: 0")
+            print("\nPara acessar o menu digite: X")
 
             # Ações do Jogador 1
             print(f"\nVez do jogador 1 - {nomeJogador_1}")
             print()
 
-            linha = int(input("Digite a posição da linha: "))
 
-            if linha == 0:
+            linha = input("Digite a posição da linha: ").upper()
+
+            if linha == "X":
                 event = 1
                 break
 
+            if linha == "A":
+                linha = 1
+            if linha == "B":
+                linha = 2
+            if linha == "C":
+                linha = 3
+            if linha == "D":
+                linha = 4
+            if linha == "E":
+                linha = 5
+            if linha == "F":
+                linha = 6
+            if linha == "G":
+                linha = 7
+            if linha == "H":
+                linha = 8
+
+
             coluna = int(input("Digite a posição da coluna: "))
-            
+
+            if coluna == "X":
+                event = 1
+                break
+
+            if coluna == "A":
+                coluna = 1
+            if coluna == "B":
+                coluna = 2
+            if coluna == "C":
+                coluna = 3
+            if coluna == "D":
+                coluna = 4
+            if coluna == "E":
+                coluna = 5
+            if coluna == "F":
+                coluna = 6
+            if coluna == "G":
+                coluna = 7
+            if coluna == "H":
+                coluna = 8
+
+
             if linha < 9 and coluna < 9:
                 if tab_1[linha][coluna] == "F":
                     print("Você já acertou essa posição perdeu a vez !!")
@@ -340,18 +381,57 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
             break
 
         while True:
-            print("\nPara acessar o menu digite: 0")
+            print("\nPara acessar o menu digite: X")
 
             # Ações do Jogador 2
             print(f"\nVez do jogador 2 - {nomeJogador_2}")
             print()
 
-            linha = int(input("Digite a posição da linha: "))
-            if linha == 0:
+            linha = input("Digite a posição da linha: ").upper()
+
+            if linha == "X":
                 event = 1
                 break
 
-            coluna = int(input("Digite a posição da coluna: "))
+            if linha == "A":
+                linha = 1
+            if linha == "B":
+                linha = 2
+            if linha == "C":
+                linha = 3
+            if linha == "D":
+                linha = 4
+            if linha == "E":
+                linha = 5
+            if linha == "F":
+                linha = 6
+            if linha == "G":
+                linha = 7
+            if linha == "H":
+                linha = 8
+
+            coluna = input("Digite a posição da coluna: ").upper()
+
+            if coluna == "X":
+                event = 1
+                break
+            
+            if coluna == "A":
+                coluna = 1
+            if coluna == "B":
+                coluna = 2
+            if coluna == "C":
+                coluna = 3
+            if coluna == "D":
+                coluna = 4
+            if coluna == "E":
+                coluna = 5
+            if coluna == "F":
+                coluna = 6
+            if coluna == "G":
+                coluna = 7
+            if coluna == "H":
+                coluna = 8
 
             if linha < 9 and coluna < 9:
                 if tab_2[linha][coluna] == "F":
