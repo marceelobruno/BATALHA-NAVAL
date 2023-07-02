@@ -35,7 +35,8 @@ def verifica_adj_L(matriz: list[list], i: int, j: int) -> bool:
     if (i + 1) < 9 and matriz[i + 1][j] == 1:
         return False
 
-    # Verifica se há o número 1 imediatamente ao lado direito do exemplo informado acima.
+    # Verifica se há o número 1 imediatamente ao lado direito
+    # do exemplo informado acima.
     elif (j + 1) < 9 and matriz[i][j + 1] == 1:
         return False
 
@@ -70,19 +71,23 @@ def verifica_adj_D(matriz: list[list], i: int, j: int) -> bool:
     """
 
     # Exemplo de posição da matriz: [0][0], quando a linha e a coluna forem igual a 0.
-    # Verifica se há o número 1 na diagonal direita, abaixo da posição do exemplo informado acima.
+    # Verifica se há o número 1 na diagonal direita,
+    # abaixo da posição do exemplo informado acima.
     if (i + 1) < 9 and (j + 1) < 9 and matriz[i + 1][j + 1] == 1:
         return False
 
-    # Verifica se há o número 1 na diagonal esquerda, abaixo da posição do exemplo informado.
+    # Verifica se há o número 1 na diagonal esquerda,
+    # abaixo da posição do exemplo informado.
     elif (i + 1) < 9 and (j - 1) >= 1 and matriz[i + 1][j - 1] == 1:
         return False
 
-    # Verifica se há o número 1 na diagonal direita, acima da posição do exemplo informado.
+    # Verifica se há o número 1 na diagonal direita,
+    # acima da posição do exemplo informado.
     elif (i - 1) >= 1 and (j + 1) < 9 and matriz[i - 1][j + 1] == 1:
         return False
 
-    # Verifica se há o número 1 na diagonal esquerda, acima da posição do exemplo informado.
+    # Verifica se há o número 1 na diagonal esquerda,
+    # acima da posição do exemplo informado.
     elif (i - 1) >= 1 and (j - 1) >= 1 and matriz[i - 1][j - 1] == 1:
         return False
 
@@ -102,6 +107,7 @@ def gerar_tabuleiro(num_navios: int) -> list[list]:
         list[list]: Retorna o tabuleiro gerado com os elementos `A` e `N`.
     """
 
+    # Gerando cada matriz utilizando list comprehension
     matriz = [[0 for i in range(9)] for i in range(9)]
 
     cont = 0
@@ -160,9 +166,9 @@ def exibir_tabuleiro(jogador1: list[list], jogador2: list[list]) -> list[list]:
 
 
 def exibir_game(tab1: list[list], tab2: list[list]) -> list[list]:
-    """A função recebe uma matriz existente com todos os seus índices preenchidos pela
-    letra `X` e faz o tratamento adicionando para cada jogador um tabuleiro referenciado
-    a primeira linha e coluna pelas letras (A a H).
+    """A função recebe uma matriz existente com todos os seus índices preenchidos
+    pela letra `X` e faz o tratamento adicionando para cada jogador um tabuleiro
+    referenciado a primeira linha e coluna pelas letras (A a H).
 
     Args:
         tab1 (list[list]): Tabuleiro do jogador 1
@@ -171,6 +177,7 @@ def exibir_game(tab1: list[list], tab2: list[list]) -> list[list]:
     Returns:
         list[list]: Os tabuleiros dos jogadores
     """
+
     # Vetor contendo as referências (A a H)
     referencias_lin_col = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
@@ -210,6 +217,8 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
         folderPath (str): Caminho onde o jogo será salvo.
         tab1 (list[list]): Matriz contendo o tabuleiro da partida do jogador 1.
         tab2 (list[list]): Matriz contendo o tabuleiro da partida do jogador 2.
+        nome1 (str): Nome do jogador 1
+        nome2 (str): Nome do jogador 2
     """
 
     # Transforma o parâmetro folderPath em um caminho relativo.
@@ -223,34 +232,35 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
     # existir, salvará a partida no caminho informado.
     if os.path.exists(caminho):
 
-        # Salvando partida e o tabuleiro do jogador_1
+        # Salvando partida, tabuleiro e nome do jogador_1
         with open(fr'{caminho}/player_1.pkl', 'wb') as plyr_1:
             pickle.dump(jog1, plyr_1)
 
         with open(fr'{caminho}/tab_1.pkl', 'wb') as tb_1:
             pickle.dump(tab1, tb_1)
 
-        # Salvando partida e o tabuleiro do jogador_2
+        with open(fr'{caminho}/player_1_name.txt', 'wb') as plyrN_1:
+            pickle.dump(nome1, plyrN_1)
+
+        # Salvando partida, tabuleiro e nome jogador_2
         with open(fr'{caminho}/player_2.pkl', 'wb') as plyr_2:
             pickle.dump(jog2, plyr_2)
 
         with open(fr'{caminho}/tab_2.pkl', 'wb') as tb_2:
             pickle.dump(tab2, tb_2)
 
-        with open(fr'{caminho}/player_1_name.txt', 'wb') as plyrN_1:
-            pickle.dump(nome1, plyrN_1)
-        
         with open(fr'{caminho}/player_2_name.txt', 'wb') as plyrN_2:
             pickle.dump(nome2, plyrN_2)
 
 
-def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
-                 tb_1: list[list], tb_2: list[list], nome1: str = "gen", nome2: str= "gen2") -> list[list] :
-    """Carrega uma partida existente e que foi armazenada na memória.
+def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
+                 folderPath: str, tb_1: list[list], tb_2: list[list],
+                 nome1: str = "gen", nome2: str = "gen2") -> list[list]:
+    """Carregar uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve
-    obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`, uma vez
-    que o diretório é salvo da seguinte forma: `\Player1_Player2\`, sendo os
-    nomes dos jogadores separados por um `_`.
+    obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`,
+    uma vez que o diretório é salvo da seguinte forma: `\Player1_Player2\`,
+    sendo os nomes dos jogadores separados por um `_`.
 
     Args:
         plyr_1 (list[list]): Matriz contendo a partida do jogador 1.
@@ -258,6 +268,8 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
         folderPath (str): Caminho onde o jogo será carregado.
         tb_1 (list[list]): Matriz contendo o tabuleiro da partida do jogador 1.
         tb_2 (list[list]): Matriz contendo o tabuleiro da partida do jogador 2.
+        nome1 (str): Nome do jogador 1
+        nome2 (str): Nome do jogador 2
     """
 
     # Transforma o parâmetro folderPath em um caminho relativo.
@@ -269,87 +281,82 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
         print('Partida desconhecida. Tente novamente!')
 
     else:
-        # Carregando partida e o tabuleiro do jogador_1
+        # Carregando partida, tabuleiro e nome do jogador_1
         with open(fr'{caminho}/player_1.pkl', 'rb') as plyr_1:
             plyr_1 = pickle.load(plyr_1)
 
         with open(fr'{caminho}/tab_1.pkl', 'rb') as tb_1:
             tb_1 = pickle.load(tb_1)
 
-        # Carregando partida e o tabuleiro do jogador_2
+        with open(fr'{caminho}/player_1_name.txt', 'rb') as nome1:
+            nome1 = pickle.load(nome1)
+
+        # Carregando partida, tabuleiro e nome do jogador_2
         with open(fr'{caminho}/player_2.pkl', 'rb') as plyr_2:
             plyr_2 = pickle.load(plyr_2)
 
         with open(fr'{caminho}/tab_2.pkl', 'rb') as tb_2:
             tb_2 = pickle.load(tb_2)
 
-        with open(fr'{caminho}/player_1_name.txt', 'rb') as nome1:
-            nome1 = pickle.load(nome1)
-
         with open(fr'{caminho}/player_2_name.txt', 'rb') as nome2:
             nome2 = pickle.load(nome2)
 
         return plyr_1, plyr_2, tb_1, tb_2, nome1, nome2
+
+
+def coordenada(coord: str) -> int:
+    """A função recebe um caractere e o transforma em um `int`.
+    Caso o caractere informado esteja entre as letras (A a H)
+    este será utilizado como coordenada na matriz. Caso seja `0`
+    fará chamada ao menu. Por fim, se for qualquer outro caractere
+    que não (0 ou A - H) será atribuído o valor de `9`.
+    Args:
+        coord (str): Um caractere representando a referência da linha/coluna.
+    Returns:
+        int: A função retorna um dado do tipo `int`.
+    """
+
+    match coord:
+        case '0':
+            return 0
+        case 'A':
+            return 1
+        case 'B':
+            return 2
+        case 'C':
+            return 3
+        case 'D':
+            return 4
+        case 'E':
+            return 5
+        case 'F':
+            return 6
+        case 'G':
+            return 7
+        case 'H':
+            return 8
+        case _:
+            return 9
+
 
 def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
     exibir_game(tab_1, tab_2)
     event = 0
     while True:
         while True:
-            print("\nPara acessar o menu digite: X")
+            print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 1
             print(f"\nVez do jogador 1 - {nomeJogador_1}")
             print()
 
+            linha = coordenada(input("Digite a posição da linha (A - H): ").upper())
 
-            linha = input("Digite a posição da linha: ").upper()
-
-            if linha == "X":
+            if linha == 0:
                 event = 1
                 break
 
-            if linha == "A":
-                linha = 1
-            if linha == "B":
-                linha = 2
-            if linha == "C":
-                linha = 3
-            if linha == "D":
-                linha = 4
-            if linha == "E":
-                linha = 5
-            if linha == "F":
-                linha = 6
-            if linha == "G":
-                linha = 7
-            if linha == "H":
-                linha = 8
-
-
-            coluna = int(input("Digite a posição da coluna: "))
-
-            if coluna == "X":
-                event = 1
-                break
-
-            if coluna == "A":
-                coluna = 1
-            if coluna == "B":
-                coluna = 2
-            if coluna == "C":
-                coluna = 3
-            if coluna == "D":
-                coluna = 4
-            if coluna == "E":
-                coluna = 5
-            if coluna == "F":
-                coluna = 6
-            if coluna == "G":
-                coluna = 7
-            if coluna == "H":
-                coluna = 8
-
+            coluna = coordenada(input("Digite a posição da coluna (A - H): ").upper())
 
             if linha < 9 and coluna < 9:
                 if tab_1[linha][coluna] == "F":
@@ -372,8 +379,8 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
                     break
 
             else:
-                print("Posição inválida")
-                print("\nPerdeu a vez!")
+                print("\nPosição inválida")
+                print("Perdeu a vez!")
                 print()
                 break
 
@@ -381,57 +388,18 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
             break
 
         while True:
-            print("\nPara acessar o menu digite: X")
+            print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 2
             print(f"\nVez do jogador 2 - {nomeJogador_2}")
             print()
 
-            linha = input("Digite a posição da linha: ").upper()
-
-            if linha == "X":
+            linha = coordenada(input("Digite a posição da linha (A - H): ").upper())
+            if linha == 0:
                 event = 1
                 break
 
-            if linha == "A":
-                linha = 1
-            if linha == "B":
-                linha = 2
-            if linha == "C":
-                linha = 3
-            if linha == "D":
-                linha = 4
-            if linha == "E":
-                linha = 5
-            if linha == "F":
-                linha = 6
-            if linha == "G":
-                linha = 7
-            if linha == "H":
-                linha = 8
-
-            coluna = input("Digite a posição da coluna: ").upper()
-
-            if coluna == "X":
-                event = 1
-                break
-            
-            if coluna == "A":
-                coluna = 1
-            if coluna == "B":
-                coluna = 2
-            if coluna == "C":
-                coluna = 3
-            if coluna == "D":
-                coluna = 4
-            if coluna == "E":
-                coluna = 5
-            if coluna == "F":
-                coluna = 6
-            if coluna == "G":
-                coluna = 7
-            if coluna == "H":
-                coluna = 8
+            coluna = coordenada(input("Digite a posição da coluna (A - H): ").upper())
 
             if linha < 9 and coluna < 9:
                 if tab_2[linha][coluna] == "F":
@@ -456,8 +424,8 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
                     print()
                     break
             else:
-                print("Posição inválida")
-                print("\nPerdeu a vez!")
+                print("\nPosição inválida")
+                print("Perdeu a vez!")
                 print()
                 break
 
