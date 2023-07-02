@@ -198,7 +198,7 @@ def exibir_game(tab1: list[list], tab2: list[list]) -> list[list]:
 
 
 def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
-               tab1: list[list], tab2: list[list]):
+               tab1: list[list], tab2: list[list], nome1: str, nome2: str):
     """Salva a partida em andamento possibilitando uma posterior continuação.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve obedecer a ordem:
     `nome do 1° jogador` + `nome do 2° jogador`, uma vez que o diretório é salvo
@@ -237,9 +237,15 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
         with open(fr'{caminho}/tab_2.pkl', 'wb') as tb_2:
             pickle.dump(tab2, tb_2)
 
+        with open(fr'{caminho}/player_1_name.txt', 'wb') as plyrN_1:
+            pickle.dump(nome1, plyrN_1)
+        
+        with open(fr'{caminho}/player_2_name.txt', 'wb') as plyrN_2:
+            pickle.dump(nome2, plyrN_2)
+
 
 def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
-                 tb_1: list[list], tb_2: list[list], nome1: str = "Player_1", nome2: str = "Player_2" ) -> list[list] :
+                 tb_1: list[list], tb_2: list[list], nome1: str = "gen", nome2: str= "gen2") -> list[list] :
     """Carrega uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve
     obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`, uma vez
@@ -277,70 +283,13 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list], folderPath: str,
         with open(fr'{caminho}/tab_2.pkl', 'rb') as tb_2:
             tb_2 = pickle.load(tb_2)
 
-        return game(plyr_1, plyr_2, tb_1, tb_2, nome1, nome2)
+        with open(fr'{caminho}/player_1_name.txt', 'rb') as nome1:
+            nome1 = pickle.load(nome1)
 
+        with open(fr'{caminho}/player_2_name.txt', 'rb') as nome2:
+            nome2 = pickle.load(nome2)
 
-def menu(jog1=None, jog2=None, tab1=None, tab2=None) -> str:
-    """ Apresenta comandos básicos de um menu que podem ser selecionados
-    ao digitar um número inteiro. Esta função utiliza-se de outras funções,
-    como: `carrega_jogo()`,`exibir_tabuleiro()` e `salva_jogo()`.
-
-    Args:
-        jog1 (list): Matriz contendo a partida do jogador 1.
-        jog2 (list): Matriz contendo a partida do jogador 2.
-        folderPath (str): Caminho onde o jogo será carregado.
-    """
-
-    print("""\
-
-Menu:
-    Digite 1 para iniciar um novo jogo:
-    Digite 2 para carregar um jogo:
-    Digite 3 para exibir as frotas:
-    Digite 4 para sair e salvar:
-    Digite 5 para sair sem salvar
-    """)
-
-    
-
-    menu = int(input("Digite o que deseja: "))
-
-    if menu == 1:
-        while True:
-            numeroNavios = int(input("Digite o número de navios (1 - 6): "))
-            # if numeroNavios <= 6 and numeroNavios > 0:
-            if 0 < numeroNavios <= 6:
-                break
-            print("Insira um valor válido entre 1 e 6!")
-
-        # Captura o nome dos jogadores
-        print('Informe os nomes dos jogadores:')
-        nomeJogador_1 = input('Jogador 1: ').title()
-        nomeJogador_2 = input('Jogador 2: ').title()
-
-        jogador1 = gerar_tabuleiro(numeroNavios)
-        jogador2 = gerar_tabuleiro(numeroNavios)
-
-        tab_1 = [["X" for i in range(9)] for i in range(9)]
-        tab_2 = [["X" for i in range(9)] for i in range(9)]
-
-        game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2)
-
-    elif menu == 2:
-        folder_path = input("informe o nome da partida que deseja carregar").lower()
-        carrega_jogo(jog1, jog2, folder_path, tab1, tab2)
-
-    elif menu == 3:
-        exibir_game(jogador1, jogador2)
-
-    elif menu == 4:
-        folder_path = input("Infome o nome dessa partida").lower()
-        salva_jogo(jog1, jog2, folder_path, tab1, tab2)
-        print('Partida salva!')
-        return False
-    else:
-        print("Você encerrou o programa sem salvar!")
-        return False
+        return plyr_1, plyr_2, tb_1, tb_2, nome1, nome2
 
 def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
     exibir_game(tab_1, tab_2)
@@ -354,14 +303,13 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
             print()
 
             linha = int(input("Digite a posição da linha: "))
-            coluna = int(input("Digite a posição da coluna: "))
 
-            if linha == 0 or coluna == 0:
-                e = menu()
-                if e is False:
-                    event = 1
+            if linha == 0:
+                event = 1
                 break
 
+            coluna = int(input("Digite a posição da coluna: "))
+            
             if linha < 9 and coluna < 9:
                 if tab_1[linha][coluna] == "F":
                     print("Você já acertou essa posição perdeu a vez !!")
@@ -400,9 +348,7 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
 
             linha = int(input("Digite a posição da linha: "))
             if linha == 0:
-                e = menu(jogador1, jogador2, tab_1, tab_2)
-                if e is False:
-                    event = 1
+                event = 1
                 break
 
             coluna = int(input("Digite a posição da coluna: "))
@@ -437,3 +383,5 @@ def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
 
         if event == 1:
             break
+
+    return jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2
