@@ -339,7 +339,20 @@ def coordenada(coord: str) -> int:
             return 9
 
 
-def game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2):
+def game(jogador1: list[list], jogador2: list[list],
+         tab_1: list[list], tab_2: list[list],
+         nomeJogador_1: str, nomeJogador_2: str):
+    """Função principal que possibilita a jogabilidade
+    da partida Batalha Naval.
+
+    Args:
+        jogador1 (list[list]): Frota do jogador 1.
+        jogador2 (list[list]): Frota do jogador 2.
+        tab_1 (list[list]): Tabuleiro do jogador 1.
+        tab_2 (list[list]): Tabuleiro do jogador 2.
+        nomeJogador_1 (str): Nome do jogador 1.
+        nomeJogador_2 (str): Nome do jogador 2.
+    """
     exibir_game(tab_1, tab_2)
     event = 0
     while True:
