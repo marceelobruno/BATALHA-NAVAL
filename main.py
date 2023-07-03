@@ -5,8 +5,13 @@ pelos alunos: Luiz Fernando, Lucas Kaique e Marcelo Bruno.
 """
 
 # Importando apenas as funções necessárias
-from functions_APE import (carrega_jogo, exibir_game, game, gerar_tabuleiro,
-                           salva_jogo)
+from helpers.functions import (
+    carrega_jogo,
+    exibir_game,
+    game,
+    gerar_tabuleiro,
+    salva_jogo,
+)
 
 # Abre a logo inicial do jogo
 with open('helpers/game_logo.txt', 'r', encoding='utf-8') as logo:
