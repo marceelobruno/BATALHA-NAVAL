@@ -205,7 +205,8 @@ def exibir_game(tab1: list[list], tab2: list[list]) -> list[list]:
 
 
 def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
-               tab1: list[list], tab2: list[list], nome1: str, nome2: str):
+               tab1: list[list], tab2: list[list], nome1: str, nome2: str,
+               numNavios: int):
     """Salva a partida em andamento possibilitando uma posterior continuação.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve obedecer a ordem:
     `nome do 1° jogador` + `nome do 2° jogador`, uma vez que o diretório é salvo
@@ -217,8 +218,10 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
         folderPath (str): Caminho onde o jogo será salvo.
         tab1 (list[list]): Matriz contendo o tabuleiro da partida do jogador 1.
         tab2 (list[list]): Matriz contendo o tabuleiro da partida do jogador 2.
-        nome1 (str): Nome do jogador 1
-        nome2 (str): Nome do jogador 2
+        nome1 (str): Nome do jogador 1.
+        nome2 (str): Nome do jogador 2.
+        numNavios (int): Número de navios de cada jogador.
+
     """
 
     # Transforma o parâmetro folderPath em um caminho relativo.
@@ -242,6 +245,9 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
         with open(fr'{caminho}/player_1_name.txt', 'wb') as plyrN_1:
             pickle.dump(nome1, plyrN_1)
 
+        with open(fr'{caminho}/navio.txt', 'wb') as navio:
+            pickle.dump(numNavios, navio)
+
         # Salvando partida, tabuleiro e nome jogador_2
         with open(fr'{caminho}/player_2.pkl', 'wb') as plyr_2:
             pickle.dump(jog2, plyr_2)
@@ -255,7 +261,7 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
 
 def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
                  folderPath: str, tb_1: list[list], tb_2: list[list],
-                 nome1: str = "gen", nome2: str = "gen2") -> list[list]:
+                 nome1: str ="gen1" , nome2: str = "gen2", numNavios:int=0) -> list[list]:
     """Carregar uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve
     obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`,
@@ -268,8 +274,9 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
         folderPath (str): Caminho onde o jogo será carregado.
         tb_1 (list[list]): Matriz contendo o tabuleiro da partida do jogador 1.
         tb_2 (list[list]): Matriz contendo o tabuleiro da partida do jogador 2.
-        nome1 (str): Nome do jogador 1
-        nome2 (str): Nome do jogador 2
+        nome1 (str): Nome do jogador 1.
+        nome2 (str): Nome do jogador 2.
+        numNavios (int): Número de navios de cada jogador.
     """
 
     # Transforma o parâmetro folderPath em um caminho relativo.
@@ -290,6 +297,8 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
 
         with open(fr'{caminho}/player_1_name.txt', 'rb') as nome1:
             nome1 = pickle.load(nome1)
+        with open(fr'{caminho}/navio.txt', 'rb') as numNavios:
+            numNavios = pickle.load(numNavios)
 
         # Carregando partida, tabuleiro e nome do jogador_2
         with open(fr'{caminho}/player_2.pkl', 'rb') as plyr_2:
@@ -301,7 +310,7 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
         with open(fr'{caminho}/player_2_name.txt', 'rb') as nome2:
             nome2 = pickle.load(nome2)
 
-        return plyr_1, plyr_2, tb_1, tb_2, nome1, nome2
+        return plyr_1, plyr_2, tb_1, tb_2, nome1, nome2, numNavios
 
 
 def coordenada(coord: str) -> int:
@@ -341,7 +350,8 @@ def coordenada(coord: str) -> int:
 
 def game(jogador1: list[list], jogador2: list[list],
          tab_1: list[list], tab_2: list[list],
-         nomeJogador_1: str, nomeJogador_2: str):
+         nomeJogador_1: str, nomeJogador_2: str,
+         numNavios:int):
     """Função principal que possibilita a jogabilidade
     da partida Batalha Naval.
 
@@ -352,14 +362,20 @@ def game(jogador1: list[list], jogador2: list[list],
         tab_2 (list[list]): Tabuleiro do jogador 2.
         nomeJogador_1 (str): Nome do jogador 1.
         nomeJogador_2 (str): Nome do jogador 2.
+        numNavios (int): Número de navios da partida.
     """
     exibir_game(tab_1, tab_2)
     event = 0
+    contAcertos_player1 = 0
+    contAcertos_player2 = 0
     while True:
         while True:
+            # if contAcertos_player1 == numNavios:
+            #     break
             print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 1
+
             print(f"\nVez do jogador 1 - {nomeJogador_1}")
             print()
 
@@ -372,14 +388,22 @@ def game(jogador1: list[list], jogador2: list[list],
             coluna = coordenada(input("Digite a posição da coluna (A - H): ").upper())
 
             if linha < 9 and coluna < 9:
-                if tab_1[linha][coluna] == "F":
+                if tab_2[linha][coluna] == "F":
                     print("Você já acertou essa posição perdeu a vez !!")
                     break
-                if jogador1[linha][coluna] == "N":
-                    tab_1[linha][coluna] = 'F'
+                if jogador2[linha][coluna] == "N":
+                    tab_2[linha][coluna] = 'F'
+                    contAcertos_player1 += 1
+
                     print()
                     with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
                         print(fogo.read())
+
+                    print(f"Você acertou!\nFaltam {numNavios-contAcertos_player1} navios.")
+                    if contAcertos_player1 == numNavios:
+                        print("\nParabéns!! Você ganhou!")
+                        event = 1
+                        break
 
                     exibir_game(tab_1, tab_2)
                 else:
@@ -387,7 +411,7 @@ def game(jogador1: list[list], jogador2: list[list],
                     with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
                         print(agua.read())
 
-                    tab_1[linha][coluna] = 'A'
+                    tab_2[linha][coluna] = 'A'
                     exibir_game(tab_1, tab_2)
                     break
 
@@ -401,6 +425,8 @@ def game(jogador1: list[list], jogador2: list[list],
             break
 
         while True:
+            # if contAcertos_player2 == numNavios:
+            #     break
             print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 2
@@ -415,15 +441,24 @@ def game(jogador1: list[list], jogador2: list[list],
             coluna = coordenada(input("Digite a posição da coluna (A - H): ").upper())
 
             if linha < 9 and coluna < 9:
-                if tab_2[linha][coluna] == "F":
+                if tab_1[linha][coluna] == "F":
                     print("Você já acertou essa posição perdeu a vez !!")
                     break
                 if jogador1[linha][coluna] == "N":
+                    tab_1[linha][coluna] = 'F'
+                    contAcertos_player2 +=1
 
-                    tab_2[linha][coluna] = 'F'
                     print()
                     with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
                         print(fogo.read())
+                    
+                    print(f"Você acertou!\nFaltam {numNavios-contAcertos_player2} navios.")
+                    if contAcertos_player2 == numNavios:
+                        print("\nParabéns!! Você ganhou!")
+                        event = 1
+                        break
+
+                    print()
 
                     exibir_game(tab_1, tab_2)
                     print()
@@ -432,7 +467,7 @@ def game(jogador1: list[list], jogador2: list[list],
                     with open('helpers/water.txt', 'r', encoding='utf-8') as agua:
                         print(agua.read())
 
-                    tab_2[linha][coluna] = 'A'
+                    tab_1[linha][coluna] = 'A'
                     exibir_game(tab_1, tab_2)
                     print()
                     break
@@ -445,4 +480,4 @@ def game(jogador1: list[list], jogador2: list[list],
         if event == 1:
             break
 
-    return jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2
+    return jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2, event

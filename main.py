@@ -5,13 +5,7 @@ pelos alunos: Luiz Fernando, Lucas Kaique e Marcelo Bruno.
 """
 
 # Importando apenas as funções necessárias
-from helpers.functions import (
-    carrega_jogo,
-    exibir_game,
-    game,
-    gerar_tabuleiro,
-    salva_jogo,
-)
+from helpers.functions import *
 
 # Abre a logo inicial do jogo
 with open('helpers/game_logo.txt', 'r', encoding='utf-8') as logo:
@@ -63,13 +57,8 @@ Menu:
         # Gerando os tabuleiros usando list comprehension
         tab_1 = [["X" for i in range(9)] for i in range(9)]
         tab_2 = [["X" for i in range(9)] for i in range(9)]
-
-        jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2 = game(jogador1,
-                                                                              jogador2,
-                                                                              tab_1,
-                                                                              tab_2,
-                                                                              nomeJogador_1,
-                                                                              nomeJogador_2)
+        
+        game(jogador1,jogador2, tab_1, tab_2,nomeJogador_1, nomeJogador_2,numeroNavios)
 
     # Carregando um jogo existente
     elif menu == 2:
@@ -77,12 +66,12 @@ Menu:
 
         cont = 1
 
-        jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2 = carrega_jogo(jogador1,
+        jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2,numeroNavios = carrega_jogo(jogador1,
                                                                                       jogador2,
                                                                                       folder_path,
-                                                                                      tab_1, tab_2)
+                                                                                      tab_1, tab_2,numeroNavios)
 
-        game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2)
+        game(jogador1, jogador2, tab_1, tab_2, nomeJogador_1, nomeJogador_2,numeroNavios)
 
     # Exibindo as frotas dos jogadores.
     # Esta opção se ativada encerrará a partida.
@@ -98,21 +87,21 @@ Menu:
             folder_path = input("Informe o nome da partida que deseja salvar: ").lower()
 
             salva_jogo(jogador1, jogador2, folder_path,
-                       tab_1, tab_2, nomeJogador_1, nomeJogador_2)
+                       tab_1, tab_2, nomeJogador_1, nomeJogador_2,numeroNavios)
             print('Partida salva!')
             break
 
         else:
             folder_path = input("Informe o nome da partida que deseja salvar: ").lower()
             salva_jogo(jogador1, jogador2, folder_path,
-                       tab_1, tab_2, nomeJogador_1, nomeJogador_2)
+                       tab_1, tab_2, nomeJogador_1, nomeJogador_2,numeroNavios)
             print('Partida salva!')
             break
 
     # Opção que encerra o jogo sem salvá-lo
     elif menu == 5:
         print("Você encerrou a partida sem salvar!")
-
+        break
     # Caso o usuário informe uma opção não existente no menu
     else:
         print("Opção não encontrada. O programa encerrou!")
