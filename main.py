@@ -4,14 +4,14 @@ desenvolvido para a disciplina Algoritmo e Programação Estruturadas
 pelos alunos: Luiz Fernando, Lucas Kaique e Marcelo Bruno.
 """
 
-# Importando apenas as funções necessárias
+# Importando as funções
 from helpers.functions import *
 
 # Abre a logo inicial do jogo
 with open('helpers/game_logo.txt', 'r', encoding='utf-8') as logo:
     print(logo.read())
 
-# Solicitando a quantidade de navios que cada tabuleira terá
+# Solicitando a quantidade de navios de cada tabuleiro
 print("\nAntes de começar:")
 cont = 0
 while True:
@@ -57,7 +57,7 @@ Menu:
         # Gerando os tabuleiros usando list comprehension
         tab_1 = [["X" for i in range(9)] for i in range(9)]
         tab_2 = [["X" for i in range(9)] for i in range(9)]
-        
+
         game(jogador1,jogador2, tab_1, tab_2,nomeJogador_1, nomeJogador_2,numeroNavios)
 
     # Carregando um jogo existente

@@ -245,6 +245,7 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
         with open(fr'{caminho}/player_1_name.txt', 'wb') as plyrN_1:
             pickle.dump(nome1, plyrN_1)
 
+        # Salvando a quantidade de navios da partida
         with open(fr'{caminho}/navio.txt', 'wb') as navio:
             pickle.dump(numNavios, navio)
 
@@ -261,7 +262,7 @@ def salva_jogo(jog1: list[list], jog2: list[list], folderPath: str,
 
 def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
                  folderPath: str, tb_1: list[list], tb_2: list[list],
-                 nome1: str ="gen1" , nome2: str = "gen2", numNavios:int=0) -> list[list]:
+                 nome1: str = "gen1", nome2: str = "gen2", numNavios: int = 1) -> list[list]:
     """Carregar uma partida existente e que foi armazenada na memória.
     A função baseai-se nos nomes fornecidos pelos jogadores e deve
     obedecer a ordem: `nome do 1° jogador` + `nome do 2° jogador`,
@@ -297,6 +298,8 @@ def carrega_jogo(plyr_1: list[list], plyr_2: list[list],
 
         with open(fr'{caminho}/player_1_name.txt', 'rb') as nome1:
             nome1 = pickle.load(nome1)
+
+        # Carregando a quantidade de navios da partida
         with open(fr'{caminho}/navio.txt', 'rb') as numNavios:
             numNavios = pickle.load(numNavios)
 
@@ -322,7 +325,7 @@ def coordenada(coord: str) -> int:
     Args:
         coord (str): Um caractere representando a referência da linha/coluna.
     Returns:
-        int: A função retorna um dado do tipo `int`.
+        int: A função retorna uma posição no tabuleiro.
     """
 
     match coord:
@@ -351,7 +354,7 @@ def coordenada(coord: str) -> int:
 def game(jogador1: list[list], jogador2: list[list],
          tab_1: list[list], tab_2: list[list],
          nomeJogador_1: str, nomeJogador_2: str,
-         numNavios:int):
+         numNavios: int):
     """Função principal que possibilita a jogabilidade
     da partida Batalha Naval.
 
@@ -370,12 +373,10 @@ def game(jogador1: list[list], jogador2: list[list],
     contAcertos_player2 = 0
     while True:
         while True:
-            # if contAcertos_player1 == numNavios:
-            #     break
+
             print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 1
-
             print(f"\nVez do jogador 1 - {nomeJogador_1}")
             print()
 
@@ -389,7 +390,7 @@ def game(jogador1: list[list], jogador2: list[list],
 
             if linha < 9 and coluna < 9:
                 if tab_2[linha][coluna] == "F":
-                    print("Você já acertou essa posição perdeu a vez !!")
+                    print("Você já acertou essa posição perdeu a vez!!")
                     break
                 if jogador2[linha][coluna] == "N":
                     tab_2[linha][coluna] = 'F'
@@ -425,8 +426,7 @@ def game(jogador1: list[list], jogador2: list[list],
             break
 
         while True:
-            # if contAcertos_player2 == numNavios:
-            #     break
+
             print("\nPara acessar o menu digite: 0")
 
             # Ações do Jogador 2
@@ -442,16 +442,16 @@ def game(jogador1: list[list], jogador2: list[list],
 
             if linha < 9 and coluna < 9:
                 if tab_1[linha][coluna] == "F":
-                    print("Você já acertou essa posição perdeu a vez !!")
+                    print("Você já acertou essa posição perdeu a vez!!")
                     break
                 if jogador1[linha][coluna] == "N":
                     tab_1[linha][coluna] = 'F'
-                    contAcertos_player2 +=1
+                    contAcertos_player2 += 1
 
                     print()
                     with open('helpers/shot.txt', 'r', encoding='utf-8') as fogo:
                         print(fogo.read())
-                    
+
                     print(f"Você acertou!\nFaltam {numNavios-contAcertos_player2} navios.")
                     if contAcertos_player2 == numNavios:
                         print("\nParabéns!! Você ganhou!")
