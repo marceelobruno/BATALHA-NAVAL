@@ -1,7 +1,7 @@
 <img src='assets/img/logo-batalha-naval.png'>
 <br>
 
-Projeto final da disciplina algoritmos e programação estruturada, do curso Sistemas para Internet - Instituto Federal da Paraíba (@ifpb) Campus João Pessoa-PB.
+Projeto final da disciplina algoritmos e programação estruturada, do curso Sistemas para Internet - Instituto Federal da Paraíba Campus João Pessoa-PB.
 
 ## Descrição do Projeto
 
@@ -17,7 +17,8 @@ A frota de cada jogador será composta por navios, onde cada um deles ocupará u
 
 A quantidade de navios da frota será igual para ambos jogadores e deverá ser definida pelo usuário no início de jogo (máximo de 6).
 
-Ao ser iniciado um novo jogo, a frota de cada jogador deverá ser posicionada no respectivo tabuleiro de forma aleatória pelo computador. Essa alocação deverá ser feita colocando-se a letra “N” na célula onde ele estiver posicionado. Obs: um navio não pode ficar encostado em outro (nem adjacente e nem diagonal).
+Ao ser iniciado um novo jogo, a frota de cada jogador deverá ser posicionada no respectivo tabuleiro de forma aleatória pelo computador. Essa alocação deverá ser feita colocando-se a letra “N” na célula onde ele estiver posicionado.
+OBS: um navio não pode ficar encostado em outro (nem adjacente e nem diagonal).
 
 Após os navios terem sido posicionados, o jogo continua numa série de tiros, que consiste no jogador escolher uma coordenada (linha x coluna) para tentar atingir algum navio do oponente.
 
@@ -42,9 +43,13 @@ ATENÇÃO:
 
 Este projeto foi desenvolvido por:
 
-Luiz Fernando - [GitHub](https://github.com/LuizFernando12) `<br>`
-Marcelo Bruno - [GitHub](https://github.com/marceelobruno) `<br>`
+Luiz Fernando - [GitHub](https://github.com/LuizFernando12)
+Marcelo Bruno - [GitHub](https://github.com/marceelobruno)
 Lucas Kaique - [GitHub](https://github.com/LucasKaiquee)
+
+## Demo
+
+Confira a demo do jogo em [@batalhanaval](https://replit.com/@MarceloBruno1/BatalhaNaval).
 
 ## Contribuição
 
