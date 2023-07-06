@@ -39,13 +39,15 @@ ATENÇÃO:
 
 [![My Skills](https://skills.thijs.gg/icons?i=python,git,&theme=light)](https://skills.thijs.gg)
 
-## Autores
+## Desenvolvedores
 
 Este projeto foi desenvolvido por:
 
 Luiz Fernando - [GitHub](https://github.com/LuizFernando12)
-Marcelo Bruno - [GitHub](https://github.com/marceelobruno)
+<br>
 Lucas Kaique - [GitHub](https://github.com/LucasKaiquee)
+<br>
+Marcelo Bruno - [GitHub](https://github.com/marceelobruno)
 
 ## Demo
 
